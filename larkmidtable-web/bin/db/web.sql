@@ -13,12 +13,14 @@
 
  Date: 15/12/2019 22:27:10
 */
+CREATE DATABASE `web` CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE  `web`;
 
 SET NAMES utf8;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for job_group
+-- 数据集成模块--
 -- ----------------------------
 DROP TABLE IF EXISTS `job_group`;
 CREATE TABLE `job_group`  (
@@ -353,6 +355,65 @@ CHANGE COLUMN `author` `user_id` INT(11) NOT NULL COMMENT '修改用户' ;
 ALTER TABLE `job_info`
 CHANGE COLUMN `increment_type` `increment_type` TINYINT(4) NULL DEFAULT 0 COMMENT '增量类型' ;
 
+
+
+-- ----------------------------
+-- 基础建设模块--
+-- ----------------------------
+CREATE TABLE `lark_base_resource` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `resourceAddress` varchar(100) DEFAULT NULL,
+  `update_time` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- 数据可视化模块--
+-- ----------------------------
+CREATE TABLE `lark_api_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `path` varchar(100) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `group_id` varchar(100) DEFAULT NULL,
+  `describe` varchar(100) DEFAULT NULL,
+  `datasource_id` varchar(100) DEFAULT NULL,
+  `params` varchar(100) DEFAULT NULL,
+  `create_time` varchar(100) DEFAULT NULL,
+  `update_time` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `lark_api_config_un` (`path`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `lark_api_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `lark_api_group_un` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `lark_api_token` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `token` varchar(100) DEFAULT NULL,
+  `describe` varchar(100) DEFAULT NULL,
+  `expire` varchar(100) DEFAULT NULL,
+  `create_time` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `lark_api_auth` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `token_id` varchar(100) DEFAULT NULL,
+  `group_id` varchar(100) DEFAULT NULL,
+  `update_time` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- 数据开发模块--
+-- ----------------------------
 CREATE TABLE `dev_env_setting` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'key',
   `name` varchar(100) DEFAULT NULL COMMENT 'property name',
@@ -363,4 +424,18 @@ CREATE TABLE `dev_env_setting` (
   `create_time` datetime DEFAULT NULL COMMENT 'create time',
   `update_time` datetime DEFAULT NULL COMMENT 'update time',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+CREATE TABLE `lark_dev_tasklist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `tasktype` varchar(100) DEFAULT NULL,
+  `runtype` varchar(100) DEFAULT NULL,
+  `sql_text` text,
+  `run_param` varchar(100) DEFAULT NULL,
+  `jarpath` varchar(100) DEFAULT NULL,
+  `task_describe` varchar(100) DEFAULT NULL,
+  `update_time` varchar(100) DEFAULT NULL,
+  `create_time` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
